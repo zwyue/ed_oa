@@ -1,0 +1,33 @@
+package com.zrtjoa.service.impl;
+
+import com.zrtjoa.annotation.PagingQuery;
+import com.zrtjoa.dao.CoursesDao;
+import com.zrtjoa.entity.Courses;
+import com.zrtjoa.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * copyright    <a href="http://www.qaqavr.com/>中锐</a>
+ * <pre>
+ *     @author      zwy
+ *     @date        2018/12/6 15:33
+ *     email        1092478224@qq.com
+ *     desc         课程管理接口实现类
+ * </pre>
+ */
+@Service
+public class CourseServiceImpl implements CourseService {
+
+    @Autowired
+    private CoursesDao coursesDao ;
+
+
+    @Override
+    @PagingQuery
+    public List<Courses> queryCourseList(Courses courses) {
+        return coursesDao.queryCourseList(courses);
+    }
+}

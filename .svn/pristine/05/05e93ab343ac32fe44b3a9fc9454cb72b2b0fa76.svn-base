@@ -1,0 +1,19 @@
+package com.zrtjoa.dao;
+
+import com.zrtjoa.entity.CourseTime;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CourseTimeDao {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(CourseTime record);
+
+    int insertSelective(CourseTime record);
+
+    CourseTime selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(CourseTime record);
+
+    int updateByPrimaryKey(CourseTime record);
+}

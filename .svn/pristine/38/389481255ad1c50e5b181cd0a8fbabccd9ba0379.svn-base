@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrtjoa.dao.TeacherDao">
+  <resultMap id="BaseResultMap" type="com.zrtjoa.entity.Teacher">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tnumber" jdbcType="VARCHAR" property="tnumber" />
+    <result column="tname" jdbcType="VARCHAR" property="tname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="birthdate" jdbcType="TIMESTAMP" property="birthdate" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="sfzaddress" jdbcType="VARCHAR" property="sfzaddress" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="workunit" jdbcType="VARCHAR" property="workunit" />
+    <result column="classid" jdbcType="VARCHAR" property="classid" />
+    <result column="classname" jdbcType="VARCHAR" property="classname" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="crttime" jdbcType="TIMESTAMP" property="crttime" />
+    <result column="roleid" jdbcType="VARCHAR" property="roleid" />
+    <result column="leavedate" jdbcType="TIMESTAMP" property="leavedate" />
+    <result column="majorid" jdbcType="INTEGER" property="majorid" />
+    <result column="majorname" jdbcType="VARCHAR" property="majorname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tnumber, tname, password, sex, age, phone, sfzh, birthdate, nation, sfzaddress, address, workunit, classid,
+    classname, status, crttime, roleid, leavedate, majorid, majorname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teacher
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from teacher
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zrtjoa.entity.Teacher">
+    insert into teacher (id, tnumber, tname, 
+      password, sex, age, phone, sfzh,
+      birthdate, nation, sfzaddress, address,
+      workunit, classid, classname, 
+      status, crttime, roleid, 
+      leavedate, majorid, majorname
+      )
+    values (#{id,jdbcType=INTEGER}, #{tnumber,jdbcType=VARCHAR}, #{tname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},#{age,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR},
+      #{birthdate,jdbcType=TIMESTAMP}, #{nation,jdbcType=VARCHAR}, #{sfzaddress,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{workunit,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}, #{classname,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{crttime,jdbcType=TIMESTAMP}, #{roleid,jdbcType=VARCHAR}, 
+      #{leavedate,jdbcType=TIMESTAMP}, #{majorid,jdbcType=INTEGER}, #{majorname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zrtjoa.entity.Teacher">
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tnumber != null">
+        tnumber,
+      </if>
+      <if test="tname != null">
+        tname,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="sfzh != null">
+        sfzh,
+      </if>
+      <if test="birthdate != null">
+        birthdate,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="sfzaddress != null">
+        sfzaddress,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="workunit != null">
+        workunit,
+      </if>
+      <if test="classid != null">
+        classid,
+      </if>
+      <if test="classname != null">
+        classname,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="crttime != null">
+        crttime,
+      </if>
+      <if test="roleid != null">
+        roleid,
+      </if>
+      <if test="leavedate != null">
+        leavedate,
+      </if>
+      <if test="majorid != null">
+        majorid,
+      </if>
+      <if test="majorname != null">
+        majorname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tnumber != null">
+        #{tnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tname != null">
+        #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzh != null">
+        #{sfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null">
+        #{birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzaddress != null">
+        #{sfzaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="workunit != null">
+        #{workunit,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null">
+        #{classid,jdbcType=VARCHAR},
+      </if>
+      <if test="classname != null">
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="crttime != null">
+        #{crttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleid != null">
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="leavedate != null">
+        #{leavedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="majorid != null">
+        #{majorid,jdbcType=INTEGER},
+      </if>
+      <if test="majorname != null">
+        #{majorname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zrtjoa.entity.Teacher">
+    update teacher
+    <set>
+      <if test="tnumber != null and tnumber != ''">
+        tnumber = #{tnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="tname != null and tname != ''">
+        tname = #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null and sex != ''">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null and age != ''">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null and phone != ''">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzh != null and sfzh != ''">
+        sfzh = #{sfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="birthdate != null and birthdate != ''">
+        birthdate = #{birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nation != null and nation != ''">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzaddress != null and sfzaddress != ''">
+        sfzaddress = #{sfzaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="workunit != null and workunit != ''">
+        workunit = #{workunit,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null and classid != ''">
+        classid = #{classid,jdbcType=VARCHAR},
+      </if>
+      <if test="classname != null and classname != ''">
+        classname = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null and roleid != ''">
+        roleid = #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="leavedate != null and leavedate != ''">
+        leavedate = #{leavedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="majorid != null and majorid != ''">
+        majorid = #{majorid,jdbcType=INTEGER},
+      </if>
+      <if test="majorname != null and majorname != ''">
+        majorname = #{majorname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.zrtjoa.entity.Teacher">
+    update teacher
+    set tnumber = #{tnumber,jdbcType=VARCHAR},
+      tname = #{tname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      sfzh = #{sfzh,jdbcType=VARCHAR},
+      birthdate = #{birthdate,jdbcType=TIMESTAMP},
+      nation = #{nation,jdbcType=VARCHAR},
+      sfzaddress = #{sfzaddress,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      workunit = #{workunit,jdbcType=VARCHAR},
+      classid = #{classid,jdbcType=VARCHAR},
+      classname = #{classname,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      crttime = #{crttime,jdbcType=TIMESTAMP},
+      roleid = #{roleid,jdbcType=VARCHAR},
+      leavedate = #{leavedate,jdbcType=TIMESTAMP},
+      majorid = #{majorid,jdbcType=INTEGER},
+      majorname = #{majorname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryTeacherByNumber" parameterType="java.lang.String" resultType="com.zrtjoa.entity.Teacher">
+     select * from teacher where tnumber = #{value }
+  </select>
+
+  <select id="queryAllTeacher" resultType="com.zrtjoa.entity.Teacher">
+     select * from teacher
+  </select>
+
+  <select id="queryTeacherByRoleId" parameterType="string" resultType="com.zrtjoa.entity.Teacher">
+     select * from teacher where roleid like concat("%","${value}","%")
+  </select>
+</mapper>

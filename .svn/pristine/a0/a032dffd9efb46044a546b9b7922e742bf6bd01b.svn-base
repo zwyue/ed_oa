@@ -1,0 +1,29 @@
+package com.zrtjoa.dao;
+
+import com.zrtjoa.entity.Teacher;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TeacherDao {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Teacher record);
+
+    int insertSelective(Teacher record);
+
+    Teacher selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Teacher record);
+
+    int updateByPrimaryKey(Teacher record);
+
+    /**
+     * 根据教师编号查询教师
+     *
+     * @author zwy
+     * @date 2018/11/28 13:20
+     * @param tnumber
+     * @return teacher
+     */
+    Teacher queryTeacherByNumber(String tnumber);
+}

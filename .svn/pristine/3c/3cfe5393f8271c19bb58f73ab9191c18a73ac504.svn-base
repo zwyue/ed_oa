@@ -1,0 +1,27 @@
+package com.zrtjoa.service;
+
+import com.zrtjoa.entity.Activities;
+
+import java.util.List;
+
+/**
+ * @Author: yangli
+ * @Description:
+ * @Date: Created in 17:35 2018/11/29
+ * @Modified by:
+ */
+public interface ActivitiesService {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Activities record);
+
+    int insertSelective(Activities record);
+
+    Activities selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Activities record);
+
+    int updateByPrimaryKey(Activities record);
+
+    List<Activities> getList();
+}

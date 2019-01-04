@@ -1,0 +1,52 @@
+package com.zrtjoa.service.impl;
+
+import com.zrtjoa.annotation.PagingQuery;
+import com.zrtjoa.dao.CoursesDao;
+import com.zrtjoa.entity.Courses;
+import com.zrtjoa.entity.WeekClass;
+import com.zrtjoa.enums.WeekEnum;
+import com.zrtjoa.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * copyright    <a href="http://www.qaqavr.com/>中锐</a>
+ * <pre>
+ *     @author      zwy
+ *     @date        2018/12/6 15:33
+ *     email        1092478224@qq.com
+ *     desc         课程管理接口实现类
+ * </pre>
+ */
+@Service
+public class CourseServiceImpl implements CourseService {
+
+    @Autowired
+    private CoursesDao coursesDao ;
+
+
+    @Override
+    @PagingQuery
+    public List<Courses> queryCourseList(Courses courses) {
+
+        List<Courses> coursesList = coursesDao.queryCourseList(courses);
+
+        Map<String,List<WeekClass>> map = new HashMap<>();
+
+        List<WeekClass> list = new ArrayList<>();
+
+        coursesList.stream().forEach(cl->{
+            if(WeekEnum.returnDayByCode(cl.getWeek())!=null){
+                WeekClass weekClass = new WeekClass(cl.getWeek(),cl.getTeacher(),cl.getClassroom());
+                list.add(weekClass);
+                map.put(WeekEnum.returnDayByCode(cl.getWeek()).day,list);
+            }
+        });
+        return null ;
+    }
+}

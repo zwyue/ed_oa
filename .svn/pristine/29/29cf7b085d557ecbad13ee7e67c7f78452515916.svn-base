@@ -1,0 +1,63 @@
+package com.zrtjoa.service;
+
+import com.zrtjoa.entity.Teacher;
+
+import java.util.List;
+
+/**
+ * TeacherService interface
+ *
+ * @author zwy
+ * @date 2018/11/28 13:13
+ */
+public interface TeacherService {
+
+    /**
+     * 根据教师编号查询教师
+     *
+     * @author zwy
+     * @date 2018/11/28 13:16
+     * @param tnumber 教师编号
+     * @return Teacher
+     */
+    Teacher queryTeacherByNumber(String tnumber);
+
+    /**
+     * 根据id查询人员信息
+     *
+     * @author zwy
+     * @date 2018/12/3 10:02
+     * @param userId 教师id
+     * @return int
+     */
+    Teacher queryTeacherById(Integer userId);
+
+    /**
+     * 更新用户信息
+     *
+     * @author zwy
+     * @date 2018/12/3 11:37
+     * @param teacher
+     * @return int
+     */
+    Integer updateTeacher(Teacher teacher);
+
+    /**
+     * 查询全部教职工
+     *
+     * @author zwy
+     * @date 2018/12/11 16:40
+     * @return list
+     */
+    List<Teacher> queryAllTeacher();
+
+    /**
+     * 根据角色id模糊查询用户
+     *
+     * @author zwy
+     * @date 2018/12/11 17:58
+     * @param roleId
+     * @return list
+     */
+    List<Teacher> queryTeacherByRoleId(Integer roleId);
+}

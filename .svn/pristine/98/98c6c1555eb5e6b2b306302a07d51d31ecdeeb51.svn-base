@@ -1,0 +1,19 @@
+package com.zrtjoa.dao;
+
+import com.zrtjoa.entity.StudentEnter;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface StudentEnterDao {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(StudentEnter record);
+
+    int insertSelective(StudentEnter record);
+
+    StudentEnter selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(StudentEnter record);
+
+    int updateByPrimaryKey(StudentEnter record);
+}

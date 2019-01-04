@@ -1,0 +1,19 @@
+package com.zrtjoa.dao;
+
+import com.zrtjoa.entity.Classtype;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ClasstypeDao {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Classtype record);
+
+    int insertSelective(Classtype record);
+
+    Classtype selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Classtype record);
+
+    int updateByPrimaryKey(Classtype record);
+}

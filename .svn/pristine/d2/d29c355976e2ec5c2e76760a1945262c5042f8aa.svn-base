@@ -1,0 +1,101 @@
+package com.zrtjoa.controller.archive;
+
+import com.zrtjoa.common.TimeUtil;
+import com.zrtjoa.entity.Scientific;
+import com.zrtjoa.service.ScientificService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
+import java.util.List;
+
+/**
+ * 科研课题管理
+ * @author yangli
+ * @date 2018/12/25
+ */
+@Controller
+@RequestMapping("/scientific")
+public class ScientificController {
+
+    @Autowired
+    private ScientificService scientificService;
+
+    /**
+     * 科研课题列表
+     * @author yangli
+     * @date 2018/11/28 14:10
+     */
+    @RequestMapping(value = "list" ,method = RequestMethod.GET)
+    public String getList(Model model){
+        List<Scientific> list = scientificService.getList();
+        model.addAttribute("list",list);
+        return "archives/scientific/scientific_list";
+    }
+
+    /**
+     * 调转至新增页面
+     * @author yangli
+     * @date 2018/12/25
+     */
+    @RequestMapping(value = "add" ,method = RequestMethod.GET)
+    public String add(){
+        return "archives/scientific/scientific_add";
+    }
+
+    /**
+     * 科研课题保存
+     * @author yangli
+     * @date 2018/12/25
+     */
+    @RequestMapping(value = "save" ,method = RequestMethod.POST)
+    @ResponseBody
+    public String save(Scientific scientific){
+        scientific.setUserid(1);
+        scientific.setUsername("username");
+        scientific.setCrttime(TimeUtil.dateToStrLong(new Date()));
+        scientificService.insert(scientific);
+        return "{ \"msg\":\"success\"}";
+    }
+
+    /**
+     * 科研课题修改
+     * @author yangli
+     * @date 2018/12/25
+     */
+    @RequestMapping(value = "update" ,method = RequestMethod.POST)
+    @ResponseBody
+    public String update(Scientific scientific){
+        scientific.setUserid(1);
+        scientific.setUsername("username");
+        scientificService.updateByPrimaryKey(scientific);
+        return "{ \"msg\":\"success\"}";
+    }
+
+    /**
+     * 删除
+     * @author yangli
+     * @date 2018/12/25
+     */
+    @RequestMapping(value = "delete" ,method = RequestMethod.GET)
+    public String delete(Integer id){
+        scientificService.deleteByPrimaryKey(id);
+        return "redirect:/scientific/list" ;
+    }
+
+    /**
+     * 查询
+     * @author yangli
+     * @date 2018/12/25
+     */
+    @RequestMapping(value = "query" ,method = RequestMethod.GET)
+    public String query(Integer id,Model model){
+        Scientific scientific = scientificService.selectByPrimaryKey(id);
+        model.addAttribute("scientific",scientific);
+        return "archives/scientific/scientific_update";
+    }
+}

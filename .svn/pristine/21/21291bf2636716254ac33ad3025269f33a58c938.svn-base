@@ -1,0 +1,57 @@
+package com.zrtjoa.service.impl;
+
+import com.zrtjoa.dao.ScientificDao;
+import com.zrtjoa.entity.Scientific;
+import com.zrtjoa.service.ScientificService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @Author: yangli
+ * @Description:
+ * @Date: Created in 10:45 2018/11/29
+ * @Modified by:
+ */
+@Service
+public class ScientificServiceImpl implements ScientificService {
+
+    @Autowired
+    private ScientificDao scientificDao;
+
+    @Override
+    public int deleteByPrimaryKey(Integer id) {
+        return scientificDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insert(Scientific record) {
+        return scientificDao.insert(record);
+    }
+
+    @Override
+    public int insertSelective(Scientific record) {
+        return scientificDao.insertSelective(record);
+    }
+
+    @Override
+    public Scientific selectByPrimaryKey(Integer id) {
+        return scientificDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(Scientific record) {
+        return scientificDao.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public int updateByPrimaryKey(Scientific record) {
+        return scientificDao.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<Scientific> getList() {
+        return scientificDao.getList();
+    }
+}

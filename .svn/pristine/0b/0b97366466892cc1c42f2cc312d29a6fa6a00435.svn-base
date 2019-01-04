@@ -1,0 +1,107 @@
+package com.zrtjoa.controller;
+
+import com.zrtjoa.common.BaseController;
+import com.zrtjoa.entity.Teacher;
+import com.zrtjoa.entity.User;
+import com.zrtjoa.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
+/**
+ *
+ * @author yangli
+ * @date 2018/12/25
+ */
+@Controller
+@RequestMapping("/user")
+public class UserController extends BaseController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping(value ="index")
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping(value ="/list")
+    public String getAllUser(Model model, HttpSession httpSession){
+        Teacher loginUser = getLoginUser(httpSession);
+        List<User> user = userService.selectAllUser();
+        model.addAttribute("userList",user);
+        logger.info("userInfo......{}......",user.get(0).getId());
+        return "alluser";
+    }
+
+    /**
+     * 跳转到添加用户界面
+     */
+    @RequestMapping("toAddUser")
+    public String toAddUser(){
+        return "adduser";
+    }
+
+    /**
+     * 添加用户并重定向
+     */
+    @RequestMapping("addUser")
+    public String addUser(Model model, User user){
+        if (user != null){
+            userService.saveUser(user);
+        }
+        return "redirect:/user/list";
+    }
+
+    /**
+     * 删除用户
+     */
+    @RequestMapping("delUser")
+    public String removeUser(Model model,Long id){
+        model.addAttribute("user",userService.deleteUser(id));
+        //userService.deleteUser(id);
+        return "redirect:/user/list";
+    }
+
+
+    /**
+     * 跳转到更新用户页面
+     */
+    @RequestMapping("toUpdate")
+    public String toUpdate(@RequestParam(value = "id")Long id, Model model){
+        model.addAttribute("user",userService.findUserById(id));
+        return "updateuser";
+    }
+
+    /**
+     * 更新用户
+     */
+    @RequestMapping(value = "updateUser",method = RequestMethod.POST)
+    public String updateUser(User user){
+        userService.updateUser(user);
+        return "redirect:/user/list";
+    }
+
+    /**
+     * 导出word
+     *
+     * @author admin
+     * @date 2018/11/22 13:22
+     */
+    @RequestMapping(value = "downLoad" ,method = RequestMethod.GET)
+    public String downLoad(HttpServletResponse response) throws Exception {
+        userService.downLoad(response);
+        return "redirect:/user/list";
+    }
+}

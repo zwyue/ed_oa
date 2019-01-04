@@ -1,0 +1,114 @@
+package com.zrtjoa.service.impl;
+
+import com.zrtjoa.dao.CourseTimeDao;
+import com.zrtjoa.dao.CoursesDao;
+import com.zrtjoa.dao.PlanRecordDao;
+import com.zrtjoa.entity.CourseTime;
+import com.zrtjoa.entity.Courses;
+import com.zrtjoa.entity.PlanRecord;
+import com.zrtjoa.entity.Teacher;
+import com.zrtjoa.service.ScheduleClassService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static com.zrtjoa.common.TimeUtil.compareTime;
+import static com.zrtjoa.constant.SysConstant.Punctuation.SHORT_LINE;
+
+/**
+ * copyright    <a href="http://www.qaqavr.com/>中锐</a>
+ * <pre>
+ *     @author      zwy
+ *     @date        2018/12/5 15:15
+ *     email        1092478224@qq.com
+ *     desc
+ * </pre>
+ */
+@Service
+public class ScheduleClassServiceImpl implements ScheduleClassService {
+
+    @Autowired
+    private CourseTimeDao courseTimeDao ;
+
+    @Autowired
+    private PlanRecordDao planRecordDao ;
+
+    @Autowired
+    private CoursesDao coursesDao ;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate ;
+
+    /**
+     * 课时预设
+     *
+     * @author zwy
+     * @date 2018/12/6 15:15
+     */
+    @Override
+    public Integer presetCourseTime(List<CourseTime> timeSlot){
+        Integer n = 1 ;
+        //时间对比
+        for(int i=0;i<timeSlot.size()-1;i++) {
+            String[] strings = timeSlot.get(i).getTime().split(SHORT_LINE);
+            if(compareTime(strings[0],strings[1])){
+                throw new IllegalArgumentException("结束时间小于开始时间");
+            }
+            for (int j=i+1;j<timeSlot.size();j++){
+                String[] strings1 = timeSlot.get(j).getTime().split(SHORT_LINE);
+                if(compareTime(strings1[0],strings1[1])){
+                    throw new IllegalArgumentException("结束时间小于开始时间");
+                }
+                if(compareTime(strings[1],strings1[0])){
+                    throw new IllegalArgumentException("开始时间小于上段结束时间");
+                }
+            }
+            //设置时间段代表
+            timeSlot.get(i).setType(n.toString());
+            n++;
+        }
+        timeSlot.get(timeSlot.size()-1).setType(n.toString());
+        return courseTimeDao.savePresetCourseTime(timeSlot);
+    }
+
+    @Override
+    public Integer scheduleCourse(PlanRecord planRecord, Teacher teacher) {
+        //查询排课表中是否有时间冲突
+        int existPlanRecord = planRecordDao.queryIfExist(planRecord);
+        if(existPlanRecord>0){
+            throw new IllegalArgumentException("该排课时间有冲突");
+        }
+        //根据时间段id查询时间段
+        List<String> timeSlot = courseTimeDao.queryTimeSlotBySlotIds(Arrays.asList(planRecord.getCourseid().split(SHORT_LINE)));
+        //排课人
+        planRecord.setTname(teacher.getTname());
+        planRecord.setTid(teacher.getId());
+
+        //课程表实体
+        Courses courses = new Courses();
+        courses.setClassroom(planRecord.getClassroom());
+        courses.setWeek(planRecord.getWeek());
+        courses.setClasses(planRecord.getClassid());
+        courses.setTeacher(planRecord.getTeacher());
+        courses.setTid(teacher.getId());
+        courses.setTname(teacher.getTname());
+        timeSlot.forEach(ts->courses.setDate((courses.getDate()==null?"":courses.getDate()) + ts));
+
+        transactionTemplate.execute(new TransactionCallback<Boolean>() {
+            @Override
+            public Boolean doInTransaction(TransactionStatus status) {
+                //保存排课记录
+                planRecordDao.insertSelective(planRecord);
+                //保存课程，形成课表
+                coursesDao.insertSelective(courses);
+                return true;
+            }
+        });
+        return null;
+    }
+}

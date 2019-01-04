@@ -1,0 +1,102 @@
+package com.zrtjoa.controller.log;
+
+import com.zrtjoa.entity.WorkPlan;
+import com.zrtjoa.service.WorkPlanService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+
+
+/**
+ * @Author: yangli
+ * @Description:
+ * @Date: Created in 14:40 2018/11/30
+ * @Modified by:
+ */
+@Controller
+@RequestMapping("/workplan")
+public class WorkPlanController {
+
+    private static final Logger logger = LoggerFactory.getLogger(WorkPlanController.class);
+
+    @Autowired
+    private WorkPlanService workPlanService;
+
+    /**
+     * 日志管理-工作计划列表
+     * @author yangli
+     * @date 2018/11/28 14:10
+     */
+    @RequestMapping(value = "list" ,method = RequestMethod.GET)
+    public String getList(Model model){
+        List<WorkPlan> list = workPlanService.getList();
+        model.addAttribute("list",list);
+        return "log/workplan/workplan_list";
+    }
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/11/30
+     * @Description: 日志管理-工作计划新增页面
+     */
+    @RequestMapping(value = "add" ,method = RequestMethod.GET)
+    public String add(){
+        return "log/workplan/workplan_add";
+    }
+
+    /**
+     * 工作计划新增保存
+     * @author yangli
+     * @date 2018/11/28 14:10
+     */
+    @RequestMapping(value = "save" ,method = RequestMethod.POST)
+    @ResponseBody
+    public String save(WorkPlan workPlan){
+        workPlan.setTid(1);
+        workPlan.setTname("username");
+        workPlanService.insert(workPlan);
+        return "{ \"msg\":\"success\"}";
+    }
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/11/30
+     * @Description: 日志管理-工作计划修改页面
+     */
+    @RequestMapping(value = "query" ,method = RequestMethod.GET)
+    public String query(Integer id,Model model){
+        WorkPlan workPlan = workPlanService.selectByPrimaryKey(id);
+        model.addAttribute("workplan",workPlan);
+        return "log/workplan/workplan_update";
+    }
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/11/30
+     * @Description: 日志管理-工作计划修改
+     */
+    @RequestMapping(value = "update" ,method = RequestMethod.POST)
+    @ResponseBody
+    public String update(WorkPlan workPlan){
+        workPlan.setTid(1);
+        workPlan.setTname("username");
+        workPlanService.updateByPrimaryKey(workPlan);
+        return "{ \"msg\":\"success\"}";
+    }
+
+    @RequestMapping(value = "delete",method = RequestMethod.GET)
+    public String delete(Integer id){
+        workPlanService.deleteByPrimaryKey(id);
+        return "redirect:/workplan/list";
+    }
+}

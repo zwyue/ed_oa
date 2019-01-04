@@ -1,0 +1,105 @@
+package com.zrtjoa.exception;
+
+/**
+ * 异常枚举类
+ *
+ * @author admin
+ * @date 2018/11/28 14:07
+ */
+public enum ExceptionEnum {
+
+    //未知错误
+    UNKNOWN_EXCEPTION("10001","未知错误"),
+
+    //系统错误
+    SYSTEM_ERROR("10002","系统错误"),
+
+    //未登录
+    LOGIN_ERROR("20001","未登录"),
+
+    NOT_PERMIT("20001","没有权限")
+    ;
+
+    private String errorCode ;
+
+    private String errorMessage ;
+
+    ExceptionEnum(){}
+
+    ExceptionEnum(String errorCode, String errorMessage){
+        this.errorCode = errorCode ;
+        this.errorMessage = errorMessage ;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    //    public String getErrorCode() {
+//        return errorCode;
+//    }
+//
+//    public void setErrorCode(String errorCode) {
+//        this.errorCode = errorCode;
+//    }
+//
+//    public String getErrorMessage() {
+//        return errorMessage;
+//    }
+//
+//    public void setErrorMessage(String errorMessage) {
+//        this.errorMessage = errorMessage;
+//    }
+//
+//    public String getErrorType() {
+//        return errorType;
+//    }
+//
+//    public void setErrorType(String errorType) {
+//        this.errorType = errorType;
+//    }
+
+    /**
+     * @Author Joanne
+     * @Description 根据code获取枚举
+     * @Date 2018/11/21 11:26
+     * @Param
+     * @return
+     **/
+    public static ExceptionEnum enumOfByCode(String code){
+        for (ExceptionEnum returnEnum : values()){
+            if (code.equals(returnEnum.errorCode)){
+                return returnEnum ;
+            }
+        }
+        throw new IllegalArgumentException("no matching code for [" + code + "]");
+    }
+
+    /**
+     * @Author Joanne
+     * @Description 根据信息获取枚举
+     * @Date 2018/11/21 11:31
+     * @Param
+     * @return
+     **/
+    public static ExceptionEnum enumOfByMsg(String msg){
+        for (ExceptionEnum returnEnum : values()){
+            if(msg.equals(returnEnum.errorMessage)){
+                return returnEnum ;
+            }
+        }
+        throw new IllegalArgumentException("no matching msg for [" + msg + "]");
+    }
+}

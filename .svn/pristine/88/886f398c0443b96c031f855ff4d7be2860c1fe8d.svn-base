@@ -1,0 +1,62 @@
+package com.zrtjoa.service.impl;
+
+import com.zrtjoa.dao.AwardDao;
+import com.zrtjoa.entity.Award;
+import com.zrtjoa.service.AwardServie;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @Author: yangli
+ * @Description:
+ * @Date: Created in 13:56 2018/11/28
+ * @Modified by:
+ */
+@Service
+public class AwardServiceImpl implements AwardServie {
+
+    @Autowired
+    private AwardDao awardDao;
+
+    @Override
+    public int deleteByPrimaryKey(Integer id) {
+        return awardDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insert(Award award){
+        return awardDao.insert(award);
+    }
+
+    @Override
+    public int insertSelective(Award record) {
+        return awardDao.insertSelective(record);
+    }
+
+    @Override
+    public Award selectByPrimaryKey(Integer id) {
+        return awardDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(Award record) {
+        return awardDao.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public int updateByPrimaryKey(Award record) {
+        return awardDao.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<Award> getList() {
+        return awardDao.getList();
+    }
+
+    @Override
+    public List<Award> getTitleList(String title) {
+        return awardDao.getTitleList(title);
+    }
+}

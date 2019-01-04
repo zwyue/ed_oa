@@ -1,0 +1,19 @@
+package com.zrtjoa.dao;
+
+import com.zrtjoa.entity.MeetRecord;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MeetRecordDao {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(MeetRecord record);
+
+    int insertSelective(MeetRecord record);
+
+    MeetRecord selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(MeetRecord record);
+
+    int updateByPrimaryKey(MeetRecord record);
+}

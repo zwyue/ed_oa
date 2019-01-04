@@ -1,0 +1,28 @@
+package com.zrtjoa.service;
+
+import com.zrtjoa.entity.WorkPlan;
+
+import java.util.List;
+
+/**
+ * @Author: yangli
+ * @Description:
+ * @Date: Created in 14:36 2018/11/30
+ * @Modified by:
+ */
+public interface WorkPlanService {
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(WorkPlan record);
+
+    int insertSelective(WorkPlan record);
+
+    WorkPlan selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(WorkPlan record);
+
+    int updateByPrimaryKey(WorkPlan record);
+
+    List<WorkPlan> getList();
+}

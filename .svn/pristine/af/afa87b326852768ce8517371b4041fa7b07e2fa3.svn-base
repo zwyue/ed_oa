@@ -1,0 +1,19 @@
+package com.zrtjoa.dao;
+
+import com.zrtjoa.entity.ClassSuggest;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ClassSuggestDao {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(ClassSuggest record);
+
+    int insertSelective(ClassSuggest record);
+
+    ClassSuggest selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(ClassSuggest record);
+
+    int updateByPrimaryKey(ClassSuggest record);
+}

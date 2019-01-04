@@ -1,0 +1,82 @@
+package com.zrtjoa.service.impl;
+
+import com.zrtjoa.annotation.PagingQuery;
+import com.zrtjoa.constant.SysConstant;
+import com.zrtjoa.dao.TeacherDao;
+import com.zrtjoa.entity.Teacher;
+import com.zrtjoa.enums.StatusEnum;
+import com.zrtjoa.service.TeacherService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * TeacerServiceImpl class
+ *
+ * @author zwy
+ * @date 2018/11/28 13:13
+ */
+@Service
+public class TeacherServiceImpl implements TeacherService {
+    @Autowired
+    private TeacherDao teacherDao ;
+
+    /**
+     * 根据教师编号查询教师
+     *
+     * @author zwy
+     * @date 2018/11/28 13:19
+     */
+    @Override
+    public Teacher queryTeacherByNumber(String tnumber) {
+        return teacherDao.queryTeacherByNumber(tnumber);
+    }
+
+    /**
+     * 根据教师id查询教师
+     *
+     * @author zwy
+     * @date 2018/12/11 16:41
+     */
+    @Override
+    public Teacher queryTeacherById(Integer userId) {
+        return teacherDao.selectByPrimaryKey(userId);
+    }
+
+    /**
+     * 更新教师信息
+     *
+     * @author zwy
+     * @date 2018/12/11 16:42
+     */
+    @Override
+    public Integer updateTeacher(Teacher teacher) {
+        return teacherDao.updateByPrimaryKeySelective(teacher);
+    }
+
+    /**
+     * 查询全部教师
+     *
+     * @author zwy
+     * @date 2018/12/11 16:42
+     */
+    @Override
+    @PagingQuery
+    public List<Teacher> queryAllTeacher() {
+        List<Teacher> teachers = teacherDao.queryAllTeacher();
+        teachers.forEach(teacher -> teacher.setStatusTxt(StatusEnum.returnEnumByCode(teacher.getStatus()).msg));
+        return teachers ;
+    }
+
+    /**
+     * 根据角色id查询拥有该角色的用户
+     *
+     * @author zwy
+     * @date 2018/12/11 18:00
+     */
+    @Override
+    public List<Teacher> queryTeacherByRoleId(Integer roleId) {
+        return teacherDao.queryTeacherByRoleId(roleId);
+    }
+}

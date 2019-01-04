@@ -1,0 +1,59 @@
+package com.zrtjoa.controller.student;
+
+import com.zrtjoa.common.BaseController;
+import com.zrtjoa.entity.Student;
+import com.zrtjoa.entity.StudentEnter;
+import com.zrtjoa.service.StudentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * copyright    <a href="http://www.qaqavr.com/>中锐</a>
+ * <pre>
+ *     @author      zwy
+ *     @date        2018/12/20 18:34
+ *     email        1092478224@qq.com
+ *     desc         学生管理
+ * </pre>
+ */
+@RestController
+@RequestMapping("student")
+public class StudentController extends BaseController {
+
+    private final static Logger logger = LoggerFactory.getLogger(StudentController.class);
+
+    @Autowired
+    private StudentService studentService ;
+
+    /**
+     * 学生报名信息录入
+     *      包括报名信息表、学生信息表、花名册表
+     *
+     * @author zwy
+     * @date 2018/12/21 9:30
+     */
+    @RequestMapping("enter")
+    @POST
+    public Map enterStudentInfo(Student student, StudentEnter studentEnter, HttpSession httpSession){
+        logger.info("......学生录入(单个)......");
+        studentEnter.setTid(getLoginUser(httpSession).getId());
+        studentEnter.setTname(getLoginUser(httpSession).getTname());
+        return studentService.enterStudentInfo(student,studentEnter);
+}
+
+    @RequestMapping("test")
+    @GET
+    public Map queryAllStudent(){
+        List<Student> students = studentService.queryAllStudents();
+        return null;
+    }
+}

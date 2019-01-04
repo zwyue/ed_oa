@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrtjoa.dao.StudentDao">
+  <resultMap id="BaseResultMap" type="com.zrtjoa.entity.Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="stunumber" jdbcType="VARCHAR" property="stunumber" />
+    <result column="sfzh" jdbcType="VARCHAR" property="sfzh" />
+    <result column="stuname" jdbcType="VARCHAR" property="stuname" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="emergency" jdbcType="VARCHAR" property="emergency" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="carnumber" jdbcType="VARCHAR" property="carnumber" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="crttime" jdbcType="TIMESTAMP" property="crttime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, stunumber, sfzh, stuname, sex, nation, phone, emergency, address, carnumber, photo, status,
+    crttime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zrtjoa.entity.Student">
+    insert into student (id, stunumber, sfzh, 
+      stuname, sex, nation, phone,
+      emergency, address, carnumber, 
+      photo, status, crttime, 
+      updatetime)
+    values (#{id,jdbcType=INTEGER}, #{stunumber,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, 
+      #{stuname,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},  #{nation,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{emergency,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{carnumber,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{crttime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zrtjoa.entity.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="stunumber != null">
+        stunumber,
+      </if>
+      <if test="sfzh != null">
+        sfzh,
+      </if>
+      <if test="stuname != null">
+        stuname,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="emergency != null">
+        emergency,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="carnumber != null">
+        carnumber,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="crttime != null">
+        crttime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stunumber != null">
+        #{stunumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzh != null">
+        #{sfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="stuname != null">
+        #{stuname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null">
+        #{emergency,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="carnumber != null">
+        #{carnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="crttime != null">
+        #{crttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zrtjoa.entity.Student">
+    update student
+    <set>
+      <if test="stunumber != null">
+        stunumber = #{stunumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sfzh != null">
+        sfzh = #{sfzh,jdbcType=VARCHAR},
+      </if>
+      <if test="stuname != null">
+        stuname = #{stuname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null">
+        emergency = #{emergency,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="carnumber != null">
+        carnumber = #{carnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="crttime != null">
+        crttime = #{crttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zrtjoa.entity.Student">
+    update student
+    set stunumber = #{stunumber,jdbcType=VARCHAR},
+      sfzh = #{sfzh,jdbcType=VARCHAR},
+      stuname = #{stuname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      emergency = #{emergency,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      carnumber = #{carnumber,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      crttime = #{crttime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

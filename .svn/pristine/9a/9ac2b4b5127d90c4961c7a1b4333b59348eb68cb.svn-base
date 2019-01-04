@@ -1,0 +1,116 @@
+package com.zrtjoa.controller.log;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zrtjoa.common.BaseController;
+import com.zrtjoa.entity.Teacher;
+import com.zrtjoa.entity.WorkSummary;
+import com.zrtjoa.service.WorkSummaryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
+/**
+ * @Author: yangli
+ * @Description:
+ * @Date: Created in 17:17 2018/12/7
+ * @Modified by:日志管理-班级工作总结
+ */
+@Controller
+@RequestMapping("/worksummary")
+public class WorkSummaryComtroller extends BaseController {
+
+    @Autowired
+    private WorkSummaryService workSummaryService;
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/12/7
+     * @Description: 日志管理-班级工作总结列表
+     */
+    @RequestMapping(value = "list",method = RequestMethod.GET)
+    public String list(@RequestParam(required=true,defaultValue="1") Integer page, Model model){
+        PageHelper.startPage(page, 3);
+        List<WorkSummary> list = workSummaryService.getList();
+        PageInfo<WorkSummary> p=new PageInfo<WorkSummary>(list);
+        model.addAttribute("page", p);
+        model.addAttribute("list",list);
+        return "log/worksummary/worksummary_list";
+    }
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/12/7
+     * @Description: 日志管理-班级工作总结新增页面
+     */
+    @RequestMapping(value = "add",method = RequestMethod.GET)
+    public String add(){
+        return "log/worksummary/worksummary_add";
+    }
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/12/7
+     * @Description: 日志管理-班级工作总结新增保存
+     */
+    @RequestMapping(value = "save",method = RequestMethod.POST)
+    @ResponseBody
+    public String save(WorkSummary record, HttpSession httpSession){
+        Teacher teacher = getLoginUser(httpSession);
+        record.setTid(teacher.getId());
+        record.setTname(teacher.getTname());
+        workSummaryService.insert(record);
+        return "{ \"msg\":\"success\"}";
+    }
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/12/7
+     * @Description: 日志管理-班级工作总结修改页面
+     */
+    @RequestMapping(value = "query",method = RequestMethod.GET)
+    public String query(Integer id,Model model){
+        WorkSummary work = workSummaryService.selectByPrimaryKey(id);
+        model.addAttribute("worksummary",work);
+        return "log/worksummary/worksummary_update";
+    }
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/12/7
+     * @Description: 日志管理-班级工作总结修改保存
+     */
+    @RequestMapping(value = "update",method = RequestMethod.POST)
+    @ResponseBody
+    public String update(WorkSummary record,HttpSession httpSession){
+        Teacher teacher = getLoginUser(httpSession);
+        record.setTid(teacher.getId());
+        record.setTname(teacher.getTname());
+        workSummaryService.updateByPrimaryKey(record);
+        return "{ \"msg\":\"success\"}";
+    }
+
+    /**
+     * @Author: yangli
+     * @params:
+     * @Date: 2018/12/7
+     * @Description: 日志管理-班级工作总结删除
+     */
+    @RequestMapping(value = "delete",method = RequestMethod.GET)
+    public String delete(Integer id){
+        workSummaryService.deleteByPrimaryKey(id);
+        return "redirect:/worksummary/list";
+    }
+}

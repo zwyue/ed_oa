@@ -1,0 +1,23 @@
+package com.zrtjoa.dao;
+
+import com.zrtjoa.entity.Roster;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface RosterDao {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Roster record);
+
+    int insertSelective(Roster record);
+
+    Roster selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Roster record);
+
+    int updateByPrimaryKey(Roster record);
+
+    List<Roster> getList();
+}

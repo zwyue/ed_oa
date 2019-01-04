@@ -1,0 +1,154 @@
+package com.zrtjoa.entity;
+
+import java.io.Serializable;
+
+/**
+ * @Author: yangli
+ * @Description: 学生表
+ * @Date: Created in 17:47 2018/11/26
+ * @Modified by:
+ */
+public class Student implements Serializable {
+    //主键id
+    private Integer id;
+    //学员编号（多个编号）
+    private String stunumber;
+    //身份证号
+    private String sfzh;
+    //学生姓名
+    private String stuname;
+    //学生性别（0：男、1：女）
+    private String sex;
+    //民族
+    private String nation;
+    //联系方式
+    private String phone;
+    //紧急联系人方式
+    private String emergency;
+    //家庭地址
+    private String address;
+    //汽车牌照号
+    private String carnumber;
+    //照片地址
+    private String photo;
+    //状态(0:启用、1：停用)
+    private String status;
+    //创建时间
+    private String crttime;
+    //修改时间
+    private String updatetime;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getStunumber() {
+        return stunumber;
+    }
+
+    public void setStunumber(String stunumber) {
+        this.stunumber = stunumber == null ? null : stunumber.trim();
+    }
+
+    public String getSfzh() {
+        return sfzh;
+    }
+
+    public void setSfzh(String sfzh) {
+        this.sfzh = sfzh == null ? null : sfzh.trim();
+    }
+
+    public String getStuname() {
+        return stuname;
+    }
+
+    public void setStuname(String stuname) {
+        this.stuname = stuname == null ? null : stuname.trim();
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getEmergency() {
+        return emergency;
+    }
+
+    public void setEmergency(String emergency) {
+        this.emergency = emergency == null ? null : emergency.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getCarnumber() {
+        return carnumber;
+    }
+
+    public void setCarnumber(String carnumber) {
+        this.carnumber = carnumber == null ? null : carnumber.trim();
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo == null ? null : photo.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    public String getCrttime() {
+        return crttime;
+    }
+
+    public void setCrttime(String crttime) {
+        this.crttime = crttime;
+    }
+
+    public String getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(String updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+}

@@ -1,0 +1,64 @@
+package com.zrtjoa.entity;
+
+import java.io.Serializable;
+
+/**
+ * @Author: yangli
+ * @Description: 学委会成员表
+ * @Date: Created in 17:47 2018/11/26
+ * @Modified by:
+ */
+public class StudyMeet implements Serializable {
+    //主键id
+    private Integer id;
+    //教师id
+    private Integer tid;
+    //教师名称
+    private String tname;
+    //职务
+    private String business;
+    //创建时间
+    private String crttime;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getTid() {
+        return tid;
+    }
+
+    public void setTid(Integer tid) {
+        this.tid = tid;
+    }
+
+    public String getTname() {
+        return tname;
+    }
+
+    public void setTname(String tname) {
+        this.tname = tname == null ? null : tname.trim();
+    }
+
+    public String getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(String business) {
+        this.business = business == null ? null : business.trim();
+    }
+
+    public String getCrttime() {
+        return crttime;
+    }
+
+    public void setCrttime(String crttime) {
+        this.crttime = crttime;
+    }
+}

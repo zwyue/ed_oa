@@ -1,0 +1,29 @@
+package com.zrtjoa.service;
+
+import com.zrtjoa.entity.Award;
+
+import java.util.List;
+
+/**
+ * @Author: yangli
+ * @Description:
+ * @Date: Created in 13:51 2018/11/28
+ * @Modified by:
+ */
+public interface AwardServie {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Award record);
+
+    int insertSelective(Award record);
+
+    Award selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Award record);
+
+    int updateByPrimaryKey(Award record);
+
+    List<Award> getList();
+
+    List<Award> getTitleList(String title);
+}
