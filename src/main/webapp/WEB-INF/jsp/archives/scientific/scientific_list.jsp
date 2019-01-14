@@ -43,7 +43,7 @@
                             <a type="button"  href="${path}/scientific/query?id=${list.id}" class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                 编辑</a>
-                            <a type="button"  href="${path}/scientific/delete?id=${list.id}" class="btn btn-danger btn-sm">
+                            <a type="button"  href="${path}/scientific/export?id=${list.id}" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
                                 删除</a>
                         </td>

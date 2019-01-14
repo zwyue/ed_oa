@@ -4,9 +4,7 @@ import com.zrtjoa.service.TermService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * TermTimeTask class
@@ -34,7 +32,7 @@ public class TermTimeTask {
 
         //使过期仍可用学期不可用
 //        termService.disableTerm();
-        //使到期但未过期学期不了用学期可用
+        //使到期但未过期学期不可用学期可用
 //        termService.enableTerm();
     }
 }

@@ -13,26 +13,22 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id,
+    isenable,
+    userid,
+    username ,
     term,
+    id,
     DATE_FORMAT(starttime,'%Y-%m-%d') starttime,
     DATE_FORMAT(endtime,'%Y-%m-%d') endtime,
-    isenable,
-    DATE_FORMAT(crttime,'%Y-%m-%d %H:%i:%S') crttime,
-    userid,
-    username
+    DATE_FORMAT(crttime,'%Y-%m-%d %H:%i:%S') crttime
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from term
-    where id = #{id,jdbcType=INTEGER}
+    select <include refid="Base_Column_List" /> from term where id = #{id}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from term
-    where id = #{id,jdbcType=INTEGER}
+    delete from term where id = #{id}
   </delete>
 
   <insert id="insert" parameterType="com.zrtjoa.entity.Term">
@@ -153,4 +149,16 @@
       #{id}
     </foreach>
   </delete>
+
+  <select id="queryThisTerm" resultType="com.zrtjoa.entity.Term">
+    select
+    <include refid="Base_Column_List"/>
+    from term where starttime &lt;= now() and  endtime >= now();
+  </select>
+
+  <select id="queryThisTermByOrder" resultType="com.zrtjoa.entity.Term">
+    select
+    <include refid="Base_Column_List"/>
+    from term where starttime > now() order by id limit 1
+  </select>
 </mapper>

@@ -44,7 +44,7 @@
     document.getElementById('btn1').addEventListener('click', function () {
         // 读取 html
         alert(editor.txt.html());
-        content = editor.txt.html();
+        content = editor.txt.text();
         title = document.getElementsByName("title");
         title = title[0].value;
         $.ajax({

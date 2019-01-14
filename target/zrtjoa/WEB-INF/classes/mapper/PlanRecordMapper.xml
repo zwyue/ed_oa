@@ -25,16 +25,15 @@
     delete from planrecord
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.zrtjoa.entity.PlanRecord">
-    insert into planrecord (id, week, courseid, classname
-      classroom, teacher, datetype, 
-      tid, tname, crttime
-      )
-    values (#{id,jdbcType=INTEGER}, #{week,jdbcType=VARCHAR}, #{courseid,jdbcType=INTEGER},#{classname},
-      #{classroom,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR}, #{datetype,jdbcType=VARCHAR}, 
-      #{tid,jdbcType=INTEGER}, #{tname,jdbcType=VARCHAR}, #{crttime,jdbcType=TIMESTAMP}
+    insert into planrecord ( week, courseid, classname , classroom , teacher,
+                             datetype, tid, tname, crttime
+      )values ( #{week}, #{courseid},#{classname},#{classroom},
+                #{teacher}, #{datetype}, #{tid}, #{tname}, #{crttime}
       )
   </insert>
+
   <insert id="insertSelective" parameterType="com.zrtjoa.entity.PlanRecord">
     insert into planrecord
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -63,37 +62,34 @@
       <if test="classname != null">
         classname,
       </if>
-      <if test="classid != null">
-        classid,
-      </if>
-      crttime,
+      crttime
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="week != null">
-        #{week,jdbcType=VARCHAR},
+        #{week},
       </if>
       <if test="courseid != null">
-        #{courseid,jdbcType=INTEGER},
+        #{courseid},
       </if>
       <if test="classroom != null">
-        #{classroom,jdbcType=VARCHAR},
+        #{classroom},
       </if>
       <if test="teacher != null">
-        #{teacher,jdbcType=VARCHAR},
+        #{teacher},
       </if>
       <if test="datetype != null">
-        #{datetype,jdbcType=VARCHAR},
+        #{datetype},
       </if>
       <if test="tid != null">
-        #{tid,jdbcType=INTEGER},
+        #{tid},
       </if>
       <if test="tname != null">
-        #{tname,jdbcType=VARCHAR},
+        #{tname},
       </if>
       <if test="classname != null">
         #{classname},
       </if>
-      now(),
+      now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zrtjoa.entity.PlanRecord">

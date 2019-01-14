@@ -130,4 +130,13 @@
     </foreach>
     )  ;
   </select>
+  <select id="getclassList" resultType="java.util.Map" parameterType="com.zrtjoa.entity.Teacher">
+    select
+    <include refid="Base_Column_List"/>
+    from workplan where classid in (""
+    <foreach collection="classids" item="classid" index="index">
+      ,#{classid}
+    </foreach>
+    )  and classname LIKE concat('%',#{classname},'%');
+  </select>
 </mapper>

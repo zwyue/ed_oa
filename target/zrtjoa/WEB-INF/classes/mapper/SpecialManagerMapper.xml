@@ -240,4 +240,21 @@
     </foreach>
     )  ;
   </select>
+  <select id="getNameTypes" parameterType="HashMap" resultType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from specialmanager
+    <where>
+      <if test="sname!=0">
+        and sname LIKE '%' #{sname} '%'
+      </if>
+      <if test="types!=null">
+        and types LIKE '%' #{types} '%'
+      </if>
+      and classid in (""
+      <foreach collection="classids" item="classid" index="index">
+        ,#{classid}
+      </foreach>);
+    </where>
+  </select>
 </mapper>

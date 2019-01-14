@@ -68,7 +68,7 @@
                                 <a type="button"  href="${path}/memorabilia/queryMemorabiliaById?id=${list.id}" class="btn btn-info btn-sm">
                                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                     编辑</a>
-                                <a type="button" onclick="deleteMethod(${list.id})" class="btn btn-danger btn-sm">
+                                <a type="button"  href="${path}/memorabilia/export?id=${list.id}" class="btn btn-danger btn-sm">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
                                     删除</a>
                             </td>

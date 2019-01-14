@@ -11,7 +11,9 @@
     <result column="times" jdbcType="TIMESTAMP" property="times" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, content, crttime, userid, username, times
+    id, title, content, userid, username,
+    DATE_FORMAT(crttime,'%Y-%m-%d %H:%i:%S') crttime,
+    DATE_FORMAT(times,'%Y-%m-%d %H:%i:%S') times
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -120,6 +122,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="getList" resultMap="BaseResultMap">
-        SELECT * FROM award
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM award
   </select>
 </mapper>

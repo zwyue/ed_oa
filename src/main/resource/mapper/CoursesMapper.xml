@@ -131,6 +131,6 @@
   </update>
 
   <select id="queryCourseList" parameterType="com.zrtjoa.entity.Courses" resultType="com.zrtjoa.entity.Courses">
-    select * from courses
+    select <include refid="Base_Column_List"/>  from courses order by date
   </select>
 </mapper>

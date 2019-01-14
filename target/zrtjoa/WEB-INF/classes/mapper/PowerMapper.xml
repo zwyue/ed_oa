@@ -9,7 +9,7 @@
     <result column="crttime" jdbcType="TIMESTAMP" property="crttime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, rules, powername, category, crttime,types
+    id, rules, powername, category, crttime,types ,iconcls
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -110,4 +110,12 @@
   <select id="queryPowerByPowerName" parameterType="java.lang.String" resultType="com.zrtjoa.entity.Power">
     select * from power where powername = #{value }
   </select>
+
+    <delete id="deletePowerByIds" parameterType="int">
+        delete from power where id in
+        <foreach collection="list" item="id" index="index"
+                 open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

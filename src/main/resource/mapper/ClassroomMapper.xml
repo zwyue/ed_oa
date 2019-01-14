@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zrtjoa.dao.ClassroomDao">
-  <!--<cache eviction="LRU" type="com.zrtjoa.util.RedisCache"/>-->
   <resultMap id="BaseResultMap" type="com.zrtjoa.entity.Classroom">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="classroom" jdbcType="VARCHAR" property="classroom" />
@@ -25,14 +24,13 @@
     delete from classroom
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <!--新增教室-->
   <insert id="insert" parameterType="com.zrtjoa.entity.Classroom">
-    insert into classroom ( classroom, cateid,
-      catename, purpose, address,
-      isuser, crttime)
-    values ( #{classroom,jdbcType=VARCHAR}, #{cateid,jdbcType=VARCHAR},
-      #{catename,jdbcType=VARCHAR}, #{purpose,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
-      #{isuser,jdbcType=VARCHAR}, now())
+    insert into classroom ( classroom, cateid, catename, purpose, address,isuser, crttime)
+    values ( #{classroom}, #{cateid},#{catename}, #{purpose}, #{address},#{isuser}, now())
   </insert>
+
   <insert id="insertSelective" parameterType="com.zrtjoa.entity.Classroom">
     insert into classroom
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -117,14 +115,14 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zrtjoa.entity.Classroom">
     update classroom
-    set classroom = #{classroom,jdbcType=VARCHAR},
-      cateid = #{cateid,jdbcType=VARCHAR},
-      catename = #{catename,jdbcType=VARCHAR},
-      purpose = #{purpose,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      isuser = #{isuser,jdbcType=VARCHAR},
-      crttime = #{crttime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    set classroom = #{classroom},
+      cateid = #{cateid},
+      catename = #{catename},
+      purpose = #{purpose},
+      address = #{address},
+      isuser = #{isuser},
+      crttime = #{crttime}
+    where id = #{id}
   </update>
 
   <select id="queryClassroomList" resultType="com.zrtjoa.entity.Classroom">

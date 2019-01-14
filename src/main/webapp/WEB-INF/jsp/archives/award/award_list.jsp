@@ -51,9 +51,9 @@
                             <a type="button"  href="${path}/award/query?id=${list.id}" class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                 编辑</a>
-                            <a type="button"  href="${path}/award/delete?id=${list.id}" class="btn btn-danger btn-sm">
+                            <a type="button"  href="${path}/award/export?id=${list.id}" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
-                                删除</a>
+                                导出word</a>
                         </td>
                     </tr>
 

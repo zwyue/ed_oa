@@ -16,8 +16,8 @@
     <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="../../js/user.js"></script>
-    <script src="../../js/term_manage.js"></script>
+    <script src="/static/js/user.js"></script>
+    <script src="/static/js/term_manage.js"></script>
     <style>
         #allocate_form {
             display: none;

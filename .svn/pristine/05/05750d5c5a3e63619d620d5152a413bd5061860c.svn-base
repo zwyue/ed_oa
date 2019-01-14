@@ -1,0 +1,120 @@
+package com.zrtjoa.service.impl;
+
+import com.zrtjoa.dao.ClassesDao;
+import com.zrtjoa.entity.Classes;
+import com.zrtjoa.service.ClassesService;
+import com.zrtjoa.util.ExcelUtil;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+import static com.zrtjoa.constant.SysConstant.SheetTitle.*;
+import static com.zrtjoa.util.FileUtil.setResponseHeader;
+
+/**
+ * 班级管理
+ * @author yangli
+ * @date 2018/12/25
+ */
+@Service
+public class ClassesServiceImpl implements ClassesService {
+
+    @Autowired
+    private ClassesDao classesDao;
+
+    @Override
+    public int deleteByPrimaryKey(Integer id) {
+        return classesDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insert(Classes record) {
+        return classesDao.insert(record);
+    }
+
+    @Override
+    public int insertSelective(Classes record) {
+        return classesDao.insertSelective(record);
+    }
+
+    @Override
+    public Classes selectByPrimaryKey(Integer id) {
+        return classesDao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(Classes record) {
+        return classesDao.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public int updateByPrimaryKey(Classes record) {
+        return classesDao.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<Classes> getList() {
+        return classesDao.getList();
+    }
+
+    @Override
+    public List<Classes> byNameList(String name) {
+        return classesDao.byNameList(name);
+    }
+
+    @Override
+    public List<Classes> getCList(Integer majorid) {
+        return classesDao.getCList(majorid);
+    }
+
+    @Override
+    public List<Classes> getTeaClasslist(Integer headmaster) {
+        return classesDao.getTeaClasslist(headmaster);
+    }
+
+    @Override
+    public void exportTeacherAndCadre(HttpServletResponse response, Classes classes) {
+
+        List<Classes> teacherAndCadres =  classesDao.queryClasses(classes);
+        //excel文件名
+        String fileName = "科任教师、班干部名单"+System.currentTimeMillis()+".xls";
+
+        //sheet名
+        String sheetName = "科任教师、班干部名单";
+
+        //excel标题
+        String[] title = {SERIAL_NUMBER,CLAZZ,TEACHER,MONITOR,STUDY_COMMITTEE,SAFE_COMMITTEE,CONTACT,REMARKS};
+
+        String values[][] = new String[teacherAndCadres.size()][];
+
+        for (int i = 0; i < teacherAndCadres.size(); i++) {
+            values[i] = new String[title.length];
+            Classes obj = teacherAndCadres.get(i);
+            values[i][0] = i+1+"" ;
+            values[i][1] = obj.getClassname();
+            values[i][2] = obj.getTname();
+            values[i][3] = obj.getMonitor();
+            values[i][4] = obj.getStudyer();
+            values[i][5] = obj.getSafer();
+            values[i][6] = obj.getPhone();
+            values[i][7] = "";
+        }
+        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName,"科任教师、班干部名单",title,values);
+        HSSFSheet sheet = wb.getSheet(sheetName);
+        sheet.setColumnWidth(6,15*256);
+        CellRangeAddress callRangeAddress = new CellRangeAddress(0,0,0,7);
+        sheet.addMergedRegion(callRangeAddress);
+        RegionUtil.setBorderLeft(BorderStyle.NONE,callRangeAddress,sheet);
+        RegionUtil.setBorderTop(BorderStyle.NONE,callRangeAddress,sheet);
+
+        //响应到客户端
+        setResponseHeader(response, fileName,wb);
+    }
+}

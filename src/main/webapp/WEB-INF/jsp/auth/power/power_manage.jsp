@@ -88,7 +88,7 @@
                             <a type="button"  href="${path}/term/copyTerm?id=${list.id}" class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                 一键复制</a>
-                            <a type="button" onclick="deleteMethod(${list.id})" class="btn btn-danger btn-sm">
+                            <a type="button" onclick="deletePower(${list.id})" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
                                 删除</a>
                         </td>
@@ -142,5 +142,36 @@
 
 </div>
 </body>
+<script>
+    function deletePower(ids) {
+        console.log(ids);
+
+        if(ids.constructor===Array ){
+            console.log("is array");
+        }else {
+            var temp = ids ;
+            ids = [];
+            ids.push(temp);
+        }
+        $.ajax({
+            url:'/power/delete' ,
+            async : true,
+            type: 'post',
+            // dataType: 'json',
+            data: {
+                idList:ids
+            },
+            success: function(data){
+                console.log(1111111);
+                for (var j = 0;j<ids.length;j++){
+                    document.getElementById(ids[j]+"").remove();
+                }
+            },
+            error: function(data){
+                console.log(2222222);
+            }
+        });
+    }
+</script>
 </html>
 

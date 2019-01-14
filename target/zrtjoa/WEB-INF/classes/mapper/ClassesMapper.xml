@@ -249,4 +249,10 @@
     from classes
     where headmaster = #{headmaster,jdbcType=INTEGER}
   </select>
+
+  <select id="queryClasses" resultType="com.zrtjoa.entity.Classes" parameterType="com.zrtjoa.entity.Classes">
+    select c.id, c.number, c.classname, c.plansize, c.actualsize, c.majorid, c.majorname, c.headmaster, c.headmastername,
+           c.monitor, c.studyer, c.safer, c.tid, c.tname, c.cateid, c.catename, c.crttime ,t.phone
+    from classes c left join teacher t on c.tid =  t.id;
+  </select>
 </mapper>
