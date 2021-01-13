@@ -1,5 +1,0 @@
-
-//JavaScript代码区域 左侧列表部分
- layui.use('element', function(){
-    var element = layui.element;
- });

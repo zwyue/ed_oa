@@ -1,7 +1,5 @@
 package com.zrtjoa.constant;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 /**
  * SysConstant class 系统静态常量
  *
