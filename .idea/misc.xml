@@ -20,11 +20,6 @@
     <option name="myConfigurationMap">
       <map>
         <entry key="$PROJECT_DIR$">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="https://122.114.112.105/svn/zrtjoa/server" />
-            </SvnBranchConfiguration>
-          </value>
         </entry>
       </map>
     </option>

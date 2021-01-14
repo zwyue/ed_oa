@@ -1,12 +1,15 @@
 package com.zrtjoa.util;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.ibatis.cache.Cache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.jedis.JedisConnection;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -23,12 +26,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RedisMapperCache implements Cache {
+
+    private static final Logger logger = LoggerFactory.getLogger(RedisMapperCache.class);
+
     @Autowired
     private static JedisConnectionFactory jedisConnectionFactory;
 
     private String id;
 
-    private static ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private static final ReadWriteLock READ_WRITE_LOCK = new ReentrantReadWriteLock();
 
     public RedisMapperCache(String id) {
         if (id == null) {
@@ -53,41 +59,29 @@ public class RedisMapperCache implements Cache {
 
     @Override
     public void putObject(Object key, Object value) {
-        JedisConnection connection = null;
-        try {
-            connection = jedisConnectionFactory.getConnection();
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
             RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-            connection.set(serializer.serialize(key), serializer.serialize(value));
-            connection.lPush(serializer.serialize(id),serializer.serialize(key));
-            System.out.println("写入缓存：" + key + "," + value);
+            connection.set(Objects.requireNonNull(serializer.serialize(key)), Objects.requireNonNull(serializer.serialize(value)));
+            connection.lPush(Objects.requireNonNull(serializer.serialize(id)), serializer.serialize(key));
+            logger.info("写入缓存：" + key + "," + value);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
     @Override
     public Object getObject(Object key) {
         Object res = null;
-        JedisConnection connection = null;
-        try {
-            connection = jedisConnectionFactory.getConnection();
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
             RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-            res = serializer.deserialize(connection.get(serializer.serialize(key)));
+            res = serializer.deserialize(connection.get(Objects.requireNonNull(serializer.serialize(key))));
             if (res != null) {
-                System.out.println("获取缓存数据：" + res.toString());
+                logger.info("获取缓存数据：" + res.toString());
             } else {
-                System.out.println("当前没有缓存:" + key);
+                logger.info("当前没有缓存:" + key);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return res;
     }
@@ -95,72 +89,52 @@ public class RedisMapperCache implements Cache {
     @Override
     public Object removeObject(Object key) {
         Object res = null;
-        JedisConnection connection = null;
-        try {
-            connection = jedisConnectionFactory.getConnection();
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
             RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-            res = connection.expire(serializer.serialize(key), 0);
-            connection.lRem(serializer.serialize(id),0,serializer.serialize(key));
-            System.out.println("删除缓存：" + key);
+            res = connection.expire(Objects.requireNonNull(serializer.serialize(key)), 0);
+            connection.lRem(Objects.requireNonNull(serializer.serialize(id)), 0, Objects.requireNonNull(serializer.serialize(key)));
+            logger.info("删除缓存：" + key);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return res;
     }
 
     @Override
     public void clear() {
-        JedisConnection connection = null;
-        try {
-            connection = jedisConnectionFactory.getConnection();
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
             RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-            //当进行insert、update操作时，会先去清空缓存，也就是调用clear方法，
-            // 网上很多文章在clear用的都是redisConnection.flushDb()，这样会把所有的缓存都清除，并不满足实际的应用！
-//            connection.flushDb();
-//            connection.flushAll();
-            Long length = connection.lLen(serializer.serialize(id));
-            if (0 == length) {
+
+            Long length = connection.lLen(Objects.requireNonNull(serializer.serialize(id)));
+            if (length==null || 0 == length) {
                 return;
             }
-            List<byte[]> keys = connection.lRange(serializer.serialize(id),0,length-1);
-            for (byte[] key :keys) {
-                connection.expireAt(key,0);
-                System.out.println("删除缓存:"+serializer.deserialize(key).toString());
+            List<byte[]> keys = connection.lRange(Objects.requireNonNull(serializer.serialize(id)), 0, length - 1);
+            assert keys != null;
+            for (byte[] key : keys) {
+                connection.expireAt(key, 0);
+                System.out.println("删除缓存:" + Objects.requireNonNull(serializer.deserialize(key)).toString());
             }
-            connection.expireAt(serializer.serialize(id),0);
+            connection.expireAt(Objects.requireNonNull(serializer.serialize(id)), 0);
             keys.clear();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
     @Override
     public int getSize() {
         int result = 0;
-        JedisConnection connection = null;
-        try {
-            connection = jedisConnectionFactory.getConnection();
-            result = Integer.valueOf(connection.dbSize().toString());
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
+            result = Integer.parseInt(Objects.requireNonNull(connection.dbSize()).toString());
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return result;
     }
 
     @Override
     public ReadWriteLock getReadWriteLock() {
-        return readWriteLock;
+        return READ_WRITE_LOCK;
     }
 }

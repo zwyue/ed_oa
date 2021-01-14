@@ -12,7 +12,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- spring版本号 -->
-        <spring.version>4.2.5.RELEASE</spring.version>
+        <spring.version>5.3.3</spring.version>
 
         <!-- mybatis版本号 -->
         <mybatis.version>3.2.8</mybatis.version>
@@ -28,7 +28,6 @@
         <slf4j.version>1.7.18</slf4j.version>
 
   </properties>
-
 
   <dependencies>
     <!-- 添加jstl依赖 -->
@@ -57,7 +56,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>[4.3.17,)</version>
+      <version>${spring.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -106,6 +105,20 @@
       <version>${spring.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>2.4.2</version>
+    </dependency>
+
+
     <!-- 添加mybatis依赖 -->
     <dependency>
       <groupId>org.mybatis</groupId>
@@ -119,6 +132,7 @@
       <artifactId>mybatis-spring</artifactId>
       <version>1.2.2</version>
     </dependency>
+
 
     <!-- 添加mysql驱动依赖 -->
     <dependency>
@@ -235,12 +249,6 @@
       <version>1</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-aspects</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-
     <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
     <dependency>
       <groupId>net.java.dev.jna</groupId>
@@ -276,26 +284,12 @@
       <version>2.9.0</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-redis</artifactId>
-      <version>1.6.2.RELEASE</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
       <version>4.0.1</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-    <!--<dependency>-->
-      <!--<groupId>com.google.guava</groupId>-->
-      <!--<artifactId>guava</artifactId>-->
-      <!--<version>27.0.1-jre</version>-->
-    <!--</dependency>-->
 
   </dependencies>
 
@@ -306,8 +300,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>8</source>
-          <target>8</target>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
     </plugins>

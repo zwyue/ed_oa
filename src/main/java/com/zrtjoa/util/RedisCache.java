@@ -1,17 +1,17 @@
 package com.zrtjoa.util;
 
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import org.apache.ibatis.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnection;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
-
 import redis.clients.jedis.exceptions.JedisConnectionException;
+
+import java.util.Objects;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  *
@@ -22,8 +22,8 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
  * @version     1.0
  * @date        2016年3月2日下午8:02:57
  */
-public class RedisCache implements Cache
-{
+public class RedisCache implements Cache  {
+
     private static final Logger logger = LoggerFactory.getLogger(RedisCache.class);
 
     private static JedisConnectionFactory jedisConnectionFactory;
@@ -44,24 +44,12 @@ public class RedisCache implements Cache
     }
 
     @Override
-    public void clear()
-    {
-        JedisConnection connection = null;
-        try
-        {
-            connection = jedisConnectionFactory.getConnection();
+    public void clear() {
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
             connection.flushDb();
             connection.flushAll();
-        }
-        catch (JedisConnectionException e)
-        {
+        } catch (JedisConnectionException e) {
             e.printStackTrace();
-        }
-        finally
-        {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
@@ -72,25 +60,14 @@ public class RedisCache implements Cache
     }
 
     @Override
-    public Object getObject(Object key)
-    {
+    public Object getObject(Object key) {
         Object result = null;
-        JedisConnection connection = null;
-        try
-        {
-            connection = jedisConnectionFactory.getConnection();
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
             RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-            result = serializer.deserialize(connection.get(serializer.serialize(key)));
-        }
-        catch (JedisConnectionException e)
-        {
+
+            result = serializer.deserialize(connection.get(Objects.requireNonNull(serializer.serialize(key))));
+        } catch (JedisConnectionException e) {
             e.printStackTrace();
-        }
-        finally
-        {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return result;
     }
@@ -102,24 +79,12 @@ public class RedisCache implements Cache
     }
 
     @Override
-    public int getSize()
-    {
+    public int getSize() {
         int result = 0;
-        JedisConnection connection = null;
-        try
-        {
-            connection = jedisConnectionFactory.getConnection();
-            result = Integer.valueOf(connection.dbSize().toString());
-        }
-        catch (JedisConnectionException e)
-        {
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
+            result = Integer.parseInt(Objects.requireNonNull(connection.dbSize()).toString());
+        } catch (JedisConnectionException e) {
             e.printStackTrace();
-        }
-        finally
-        {
-            if (connection != null) {
-                connection.close();
-            }
         }
         return result;
     }
@@ -127,35 +92,24 @@ public class RedisCache implements Cache
     @Override
     public void putObject(Object key, Object value)
     {
-        JedisConnection connection = null;
-        try
-        {
-            connection = jedisConnectionFactory.getConnection();
+        try (RedisConnection connection = jedisConnectionFactory.getConnection()) {
             RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-            connection.set(serializer.serialize(key), serializer.serialize(value));
-        }
-        catch (JedisConnectionException e)
-        {
+            connection.set(Objects.requireNonNull(serializer.serialize(key)), Objects.requireNonNull(serializer.serialize(value)));
+        } catch (JedisConnectionException e) {
             e.printStackTrace();
-        }
-        finally
-        {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
     @Override
     public Object removeObject(Object key)
     {
-        JedisConnection connection = null;
+        RedisConnection connection = null;
         Object result = null;
         try
         {
             connection = jedisConnectionFactory.getConnection();
             RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
-            result =connection.expire(serializer.serialize(key), 0);
+            result =connection.expire(Objects.requireNonNull(serializer.serialize(key)), 0);
         }
         catch (JedisConnectionException e)
         {

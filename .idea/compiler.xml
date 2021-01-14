@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="zrtjoa" target="8" />
+      <module name="zrtjoa" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

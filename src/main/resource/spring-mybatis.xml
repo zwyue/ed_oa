@@ -69,9 +69,9 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="${driverClasss}"/>
-        <property name="url" value="${local.jdbcUrl}"/>
-        <property name="username" value="${local.username}"/>
-        <property name="password" value="${local.password}"/>
+        <property name="url" value="${server.jdbcUrl}"/>
+        <property name="username" value="${server.username}"/>
+        <property name="password" value="${server.password}"/>
         <!-- 初始化连接大小 -->
         <property name="initialSize" value="${initialSize}" />
         <!-- 连接池最大数量 -->

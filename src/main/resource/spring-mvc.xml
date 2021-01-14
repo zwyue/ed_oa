@@ -28,7 +28,7 @@
         </property>
     </bean>
     <!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
                 <ref bean="mappingJacksonHttpMessageConverter"/> <!-- JSON转换器 -->
@@ -80,7 +80,7 @@
 
     <!--自定义消息转换器的编码,解决后台传输json回前台时，中文乱码问题-->
     <mvc:annotation-driven >
-        <mvc:message-converters register-defaults="true">
+        <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter" >
                 <property name = "supportedMediaTypes">
                     <list>
